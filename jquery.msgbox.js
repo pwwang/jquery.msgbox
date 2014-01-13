@@ -1,8 +1,8 @@
 ﻿/**
  * jquery.msgbox v8.0
- * 
  * http://jmsgbox.com
  */
+
 
 (function($, undefined){
 	
@@ -59,7 +59,7 @@
 		minWidth: 200,		// the width of minimized msgbox, height is titleHeight
 		
 		photoAuto: true,	// whether to play the album automatically on first open
-		photoSpeed: 2700,	// the interval of showing photos
+		photoSpeed: 2000,	// the interval of showing photos
 		photoScaled: false,	// whether to scale the photo the scale of (options.width, options.height)
 		photoFade: 300,		// whether to use fade transition to show photos, false, or a miniseconds
 		
