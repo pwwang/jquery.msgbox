@@ -59,7 +59,7 @@
 		minWidth: 200,		// the width of minimized msgbox, height is titleHeight
 		
 		photoAuto: true,	// whether to play the album automatically on first open
-		photoSpeed: 2000,	// the interval of showing photos
+		photoSpeed: 2500,	// the interval of showing photos
 		photoScaled: false,	// whether to scale the photo the scale of (options.width, options.height)
 		photoFade: 300,		// whether to use fade transition to show photos, false, or a miniseconds
 		
@@ -535,6 +535,45 @@
 			}).appendTo(this.$content);
 		
 			if (!this.titleSpecified) this.title ($handler.attr('title'));
+			
+			var imgload = function () {
+				that.$loading.remove();
+				that.$loading = undefined;
+				
+				if (that.options.photoScaled) { // scaled to height and width
+					var shouldBeHeight = that.options.height - that.options.titleHeight - that.options.footHeight;
+					var imgHeight = that.$img.outerHeight(true);
+					var imgWidth  = that.$img.outerWidth(true);
+					var ratio = 1;
+					
+					if (imgHeight > shouldBeHeight) 
+						ratio = shouldBeHeight / imgHeight;
+					if (imgWidth*ratio > that.options.width)
+						ratio = that.options.width / imgWidth;
+					
+					var realWidth = imgWidth * ratio, realHeight = imgHeight * ratio;
+					that.$img.css ({
+						position: 'absolute',
+						width : (imgWidth * ratio) + 'px',
+						height: (imgHeight * ratio)  + 'px'
+					});
+					
+					if (realHeight <= shouldBeHeight)
+						that.$img.css('top', ((shouldBeHeight - realHeight) / 2) + 'px');
+					if (realWidth <= that.options.width) 
+						that.$img.css('left', ((that.options.width - realWidth) / 2) + 'px');
+					
+					
+				} else {
+					that.options.height = that.$img.outerHeight(true) + that.options.titleHeight + that.options.footHeight;
+					that.options.width  = that.$img.outerWidth(true);
+				}
+				
+				that.$img.fadeIn (that.options.photoSpeed * that.options.photoAuto);
+				that.loaded = true;
+				if (that.options.onLoad) that.options.onLoad.apply(that);
+				if (callback) callback.apply(that);
+			};
 
 			if (!this.$img) {
 				this.$img = createElement('img', this.options.prefix + '-photo');
@@ -544,46 +583,7 @@
 					that.$img.attr(val, attr);
 				});
 				
-				this.$img.appendTo(this.$content).hide()
-					.bind('load.' + this.options.prefix, function () {
-						that.$loading.remove();
-						that.$loading = undefined;
-						
-						if (that.options.photoScaled) { // scaled to height and width
-							var shouldBeHeight = that.options.height - that.options.titleHeight - that.options.footHeight;
-							var imgHeight = that.$img.outerHeight(true);
-							var imgWidth  = that.$img.outerWidth(true);
-							var ratio = 1;
-							
-							if (imgHeight > shouldBeHeight) 
-								ratio = shouldBeHeight / imgHeight;
-							if (imgWidth*ratio > that.options.width)
-								ratio = that.options.width / imgWidth;
-							
-							var realWidth = imgWidth * ratio, realHeight = imgHeight * ratio;
-							that.$img.css ({
-								position: 'absolute',
-								width : (imgWidth * ratio) + 'px',
-								height: (imgHeight * ratio)  + 'px'
-							});
-							
-							if (realHeight == shouldBeHeight) 
-								that.$img.css('left', ((that.options.width - realWidth) / 2) + 'px');
-							else
-								that.$img.css('top', ((shouldBeHeight - realHeight) / 2) + 'px');
-							
-							
-						} else {
-							that.options.height = that.$img.outerHeight(true) + that.options.titleHeight + that.options.footHeight;
-							that.options.width  = that.$img.outerWidth(true);
-						}
-						
-						
-						that.$img.fadeIn (that.options.photoFade, function(){
-							that.loaded = true;
-							if (that.options.onLoad) that.options.onLoad.apply(that);
-						});
-					})
+				this.$img.hide().appendTo(this.$content)
 					.error(function(){
 						that.$loading.remove();
 						that.$loading = undefined;
@@ -591,6 +591,9 @@
 						that.content(_('imgError', that.options.lang));
 					});
 			}
+			this.$img.unbind('load.' + this.options.prefix)
+				.bind('load.' + this.options.prefix, imgload);
+			
 			
 			var src = that.$img.attr('src');
 			
@@ -598,14 +601,10 @@
 				setTimeout(function(){
 					that.$img.attr('src', $handler.attr('href'));
 				}, 1);
-				
-				setTimeout(function(){
-					if (callback) callback.apply(that);
-				}, that.options.photoFade + 1);
 			};
 			
 			if (src) {
-				that.$img.fadeOut(that.options.photoFade, load);
+				that.$img.fadeOut(that.options.photoFade * that.options.photoAuto, load);
 			} else {
 				load();
 			}
