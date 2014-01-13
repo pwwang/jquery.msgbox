@@ -1,13 +1,16 @@
 jmsgbox
 =======
 
-A jquery popup plugin
+A jquery popup/modal/dialog plugin. Version 8.0
 
-version 8.0
+Documentation and examples: http://jmsgbox.com
+
+Browser support: morden browsers, IE7+
+
+Required: jquery 1.7+
 
 *Previous version could be found at https://code.google.com/p/jquery-msgbox/*
 
-Documentation and examples: http://jmsgbox.com
 
 Why another jquery popup plugin ?
 ---------------------------------

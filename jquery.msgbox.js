@@ -19,7 +19,7 @@
 	};
 	
 	var DEFAULTS = {
-		fixed: true,		// whether the position of the box and overlay is fixed
+		fixed: true,		// whether the position of the box is fixed
 		overlay: true,		// show overlay ?
 		overlayEvent: 'flash',
 							// click overlay to flash|close or function?
@@ -61,7 +61,7 @@
 		photoAuto: true,	// whether to play the album automatically on first open
 		photoSpeed: 2500,	// the interval of showing photos
 		photoScaled: false,	// whether to scale the photo the scale of (options.width, options.height)
-		photoFade: 300,		// whether to use fade transition to show photos, false, or a miniseconds
+		photoFade: 500,		// whether to use fade transition to show photos, false, or a miniseconds
 		
 		imgError: 'Failed to load image.',	// the error message when loading image
 		xhrError: 'Failed to load URL.',	// the error message when using ajax
@@ -419,13 +419,13 @@
 					
 				case 'confirm':
 					
-					if (!$.isFunction(this.options.buttonEvents.OK)) {
+					if (!(this.options.buttonEvents.OK)) {
 						this.options.buttonEvents.OK = function () {
 							this.close(function () { this.v = true; });
 						}
 					}
 					
-					if (!$.isFunction(this.options.buttonEvents.Cancel)) {
+					if (!(this.options.buttonEvents.Cancel)) {
 						this.options.buttonEvents.Cancel = function () {
 							this.close(function () { this.v = false; });
 						}
@@ -434,13 +434,13 @@
 				
 				case 'prompt':
 					
-					if (!$.isFunction(this.options.buttonEvents.OK)) {
+					if (!(this.options.buttonEvents.OK)) {
 						this.options.buttonEvents.OK = function () {
 							this.close(function () { this.v = this.$prompt.val(); });
 						}
 					}
 					
-					if (!$.isFunction(this.options.buttonEvents.Cancel)) {
+					if (!(this.options.buttonEvents.Cancel)) {
 						this.options.buttonEvents.Cancel = function () {
 							this.close(function () { this.v = undefined; });
 						}
@@ -449,13 +449,15 @@
 				
 				default:
 					
-					if (!$.isFunction(this.options.buttonEvents.OK)) {
-						this.options.buttonEvents.OK = function () { this.close(); }
+					if (!(this.options.buttonEvents.OK)) {
+						this.options.buttonEvents.OK = 'close';
 					} 
 					break;
 			}
 			
 			$.each (this.options.buttonEvents, function (button, fn) {
+				if (!$.isFunction(fn)) fn = $.isFunction(that[fn]) ? that[fn] : false;
+				if (!fn) return;
 				that.$buttons[button].bind('click.' + that.options.prefix, function(){
 					fn.apply(that);
 				});
@@ -569,7 +571,7 @@
 					that.options.width  = that.$img.outerWidth(true);
 				}
 				
-				that.$img.fadeIn (that.options.photoSpeed * that.options.photoAuto);
+				that.$img.fadeIn (that.options.photoFade);
 				that.loaded = true;
 				if (that.options.onLoad) that.options.onLoad.apply(that);
 				if (callback) callback.apply(that);
@@ -591,23 +593,12 @@
 						that.content(_('imgError', that.options.lang));
 					});
 			}
-			this.$img.unbind('load.' + this.options.prefix)
+			this.$img.hide().unbind('load.' + this.options.prefix)
 				.bind('load.' + this.options.prefix, imgload);
 			
-			
-			var src = that.$img.attr('src');
-			
-			var load = function () {
-				setTimeout(function(){
-					that.$img.attr('src', $handler.attr('href'));
-				}, 1);
-			};
-			
-			if (src) {
-				that.$img.fadeOut(that.options.photoFade * that.options.photoAuto, load);
-			} else {
-				load();
-			}
+			setTimeout(function(){
+				that.$img.attr('src', $handler.attr('href'));
+			}, 1);
 						
 		},
 		
@@ -652,13 +643,14 @@
 					break;
 				
 				case 'ajax':
-					var $loading = createElement('div', this.options.prefix + '-loading', {
+					this.$loading = createElement('div', this.options.prefix + '-loading', {
 						height: '100%',
 						width:  '100%'
 					}).appendTo(this.$content);
 					var that = this;
 					this.$loaded.load(this.options.content, function(data, state){
-						$loading.remove();
+						this.$loading.remove();
+						this.$loading = undefined;
 						that.$loaded.appendTo(that.$content);
 						if (state == 'error') 
 							that.$loaded.html(_('xhrError', that.options.lang));
@@ -676,7 +668,7 @@
 				
 				case 'album':
 				case 'gallery':
-					var index = this.$trigger.index(this.options.content);
+					var index = this.$trigger ? this.$trigger.index(this.options.content) : 0;
 					this.index = index < 0 ? 0 : index;
 					var $handler = $(this.options.content).eq (this.index);
 					
@@ -810,7 +802,7 @@
 					
 					if ($container.length > 0) {
 						var offset = $container.offset();
-						if (offset === undefined) offset = {left:0, top:0}; // if it is window
+						if (!offset) offset = {left:0, top:0}; // if it is window
 						if (!that.options.fixed) {
 							offset.left += $(window).scrollLeft();
 							offset.top  += $(window).scrollTop();
