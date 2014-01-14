@@ -1,5 +1,5 @@
-jmsgbox
-=======
+jquery.msgbox
+=============
 
 A jquery popup/modal/dialog plugin. Version 8.0
 
