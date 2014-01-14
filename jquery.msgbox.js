@@ -657,7 +657,7 @@
 							that.$loaded.html(_('xhrError', that.options.lang));
 						that.loaded = true;
 						if (callback) callback.apply(that);
-						if (that.options.onLoad) this.options.onLoad.apply(that);
+						if (that.options.onLoad) that.options.onLoad.apply(that);
 					});
 					break;
 				
