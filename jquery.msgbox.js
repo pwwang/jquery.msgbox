@@ -616,7 +616,8 @@
 				
 				case 'html':
 				case 'confirm':
-					this.$loaded.html(this.options.content).appendTo(this.$content);
+					var content = $.type(this.options.content)==='object' ? this.options.content.show() : this.options.content;
+					this.$loaded.html(content).appendTo(this.$content);
 					this.loaded = true;
 					if (callback) callback.apply(this);
 					if (this.options.onLoad) this.options.onLoad.apply(this);
