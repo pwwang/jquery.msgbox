@@ -649,8 +649,8 @@
 					}).appendTo(this.$content);
 					var that = this;
 					this.$loaded.load(this.options.content, function(data, state){
-						this.$loading.remove();
-						this.$loading = undefined;
+						that.$loading.remove();
+						that.$loading = undefined;
 						that.$loaded.appendTo(that.$content);
 						if (state == 'error') 
 							that.$loaded.html(_('xhrError', that.options.lang));
