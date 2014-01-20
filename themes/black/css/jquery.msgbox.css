@@ -6,7 +6,7 @@
 				-moz-border-radius: 5px;
 				-o-border-radius: 5px;
 				border: 1px solid #111; }
-	.jMsgbox-title { background-color: #111;
+	.jMsgbox-title { background-color: #111; font-weight: bold;
 					 color:#fff; padding-left: 8px;  }
 		.jMsgbox-controls {right: 6px; top: 3px;}
 			.jMsgbox-controls a { width: 14px;
@@ -31,16 +31,19 @@
 			.jMsgbox-pause {background-position: -123px 0px}
 			.jMsgbox-pause:hover {background-position: -123px -17px}
 	.jMsgbox-content { background-color: #fff; }
-	.jMsgbox-content.jMsgbox-alert {   background:url(../img/info.png) 10px 10px no-repeat #d0eafa; padding-left: 60px; }
-	.jMsgbox-content.jMsgbox-info {    background:url(../img/info.png) 10px 10px no-repeat #d0eafa; padding-left: 60px; }
-	.jMsgbox-content.jMsgbox-warning { background:url(../img/warning.png) 10px 10px no-repeat #fbf8d0; padding-left: 60px; }
-	.jMsgbox-content.jMsgbox-error {   background:url(../img/error.png) 10px 10px no-repeat #fbd1d0; padding-left: 60px;}
-	.jMsgbox-content.jMsgbox-success { background:url(../img/success.png) 10px 10px no-repeat #d7fbd0; padding-left: 60px;}
+	.jMsgbox-content .jMsgbox-shortcut {  background-position: 10px 10px; background-repeat: no-repeat; background-color: transparent; padding: 24px 0px 12px 70px !important; }
+	.jMsgbox-content .jMsgbox-alert {   background-image:url(../img/warning.png); color: #ac5b02; }
+	.jMsgbox-content .jMsgbox-info {    background-image:url(../img/info.png);    color: #004e9b;}
+	.jMsgbox-content .jMsgbox-warning { background-image:url(../img/warning.png); color: #a89806; }
+	.jMsgbox-content .jMsgbox-error {   background-image:url(../img/error.png);   color: #e30000;}
+	.jMsgbox-content .jMsgbox-success { background-image:url(../img/success.png); color: #006400;}
+	.jMsgbox-content .jMsgbox-confirm { background-image:url(../img/confirm.png); color: #000000;}
+	.jMsgbox-content .jMsgbox-prompt {  background-image:url(../img/prompt.png);  color: #000000;}
+		.jMsgbox-content .jMsgbox-prompt-input {  border: 1px solid #333;
+												  background-color: #ddd;
+												  font-size: 12px; }
 		.jMsgbox-loading { background:url(../img/loading.gif) center center no-repeat #fff; }
 		.jMsgbox-loaded { padding: 12px; }
-			.jMsgbox-prompt { border: 1px solid #333;
-							  background-color: #ddd;
-							  font-size: 12px; }
 	.jMsgbox-foot { background-color: #c2c2c2;
 					text-align: right; }
 		.jMsgbox-foot input { margin-right: 10px;
