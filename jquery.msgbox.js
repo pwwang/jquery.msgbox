@@ -63,6 +63,8 @@
 		photoScaled: false,	// whether to scale the photo the scale of (options.width, options.height)
 		photoFade: 500,		// whether to use fade transition to show photos, false, or a miniseconds
 		
+		padding: 0,			// the padding of the content
+		
 		imgError: 'Failed to load image.',	// the error message when loading image
 		xhrError: 'Failed to load URL.',	// the error message when using ajax
 											// these will be overrided by $.msgboxI18N.en.imgError
@@ -366,26 +368,38 @@
 			
 			// content
 			this.$content = createElement('div', this.options.prefix + '-content', {
-				overflow: $.inArray(this.options.type, ['photo', 'image', 'album', 'gallery']) == -1 ? 'auto' : 'hidden',
+				overflow: 'hidden',
 				position: 'relative'
 			});
 			
 			// prompt
-			this.$prompt = createElement('input', this.options.prefix + '-prompt', {}, {
+			this.$prompt = createElement('input', this.options.prefix + '-prompt-input', {}, {
 				type: 'text'
+			});
+			
+			this.$loaded = createElement('div', this.options.prefix + '-loaded', {
+				padding: this.options.padding,
+				width: '100%',
+				height: '100%',
+				overflow: $.inArray(this.options.type, ['photo', 'image', 'album', 'gallery']) == -1 ? 'auto' : 'hidden'
+			});
+			
+			this.$loading = createElement('div', this.options.prefix + '-loading', {
+				height: '100%',
+				width:  '100%'
 			});
 		},
 		
 		// append the element to DOM
 		_append: function () {
 			if (this.options.overlay) $(document.body).append(this.$overlay);
-			$(document.body).append(this.$wrap.append(this.$title.append(this.$controls), this.$content));
+			$(document.body).append(this.$wrap.append(this.$title.append(this.$controls), this.$content.append(this.$loaded)));
 			if (this.options.buttons !== null && this.options.buttons.length > 0) {
 				this.$foot.appendTo(this.$wrap);
 				if (this.options.resize) this.$resize.appendTo(this.$foot);
 			} else {
 				if (this.options.resize) this.$resize.appendTo(this.$content);
-			}
+			} 
 		},
 		
 		_bindEvents: function () {
@@ -527,14 +541,14 @@
 			
 			var that = this;
 			// purge
-			this.$content.contents().filter(function(){
-				return this.nodeType == 3 || (!$(this).is(that.$img) && !$(this).is(that.$resize));
-			}).remove();
+			//this.$content.contents().filter(function(){
+			//	return this.nodeType == 3 || (!$(this).is(that.$img) && !$(this).is(that.$resize));
+			//}).remove();
 			
 			this.$loading = createElement('div', this.options.prefix + '-loading', {
 				height: '100%',
 				width:  '100%'
-			}).appendTo(this.$content);
+			}).appendTo(this.$loaded);
 		
 			if (!this.titleSpecified) this.title ($handler.attr('title'));
 			
@@ -585,7 +599,7 @@
 					that.$img.attr(val, attr);
 				});
 				
-				this.$img.hide().appendTo(this.$content)
+				this.$img.hide().appendTo(this.$loaded)
 					.error(function(){
 						that.$loading.remove();
 						that.$loading = undefined;
@@ -604,20 +618,22 @@
 		
 		_load: function (callback) {
 			if (this.loaded) return;
-			this.$loaded = createElement('div', this.options.prefix + '-loaded');
+			
 			
 			switch (this.options.type) {
 				case 'text':
-					this.$loaded.text(this.options.content).appendTo(this.$content);
+					this.$loaded.text(this.options.content);
 					this.loaded = true;
 					if (callback) callback.apply(this);
 					if (this.options.onLoad) this.options.onLoad.apply(this);
 					break;
 				
 				case 'html':
-				case 'confirm':
-					var content = $.type(this.options.content)==='object' ? this.options.content.show() : this.options.content;
-					this.$loaded.html(content).appendTo(this.$content);
+					var content = $.type(this.options.content)==='object'
+									? this.options.content.show()
+									: this.options.content;
+
+					this.$loaded.append(content);
 					this.loaded = true;
 					if (callback) callback.apply(this);
 					if (this.options.onLoad) this.options.onLoad.apply(this);
@@ -628,16 +644,28 @@
 				case 'info':
 				case 'error':
 				case 'success':
-					this.$loaded.html(this.options.content).appendTo(this.$content.addClass(this.options.prefix + '-' + this.options.type));
+				case 'confirm':
+					var content = $.type(this.options.content)==='object'
+									? this.options.content.show()
+									: this.options.content;
+					
+					this.$loaded.append(content).addClass(
+						  this.options.prefix + '-shortcut '
+						+ this.options.prefix + '-' + this.options.type);
 					this.loaded = true;
 					if (callback) callback.apply(this);
 					if (this.options.onLoad) this.options.onLoad.apply(this);
 					break;
 					
 				case 'prompt':
-					this.$loaded.html(this.options.content)
-						.append(this.$prompt)
-						.appendTo(this.$content);
+					var content = $.type(this.options.content)==='object'
+									? this.options.content.show()
+									: this.options.content;
+					
+					this.$loaded.append(content).append(this.$prompt).addClass(
+						  this.options.prefix + '-shortcut '
+						+ this.options.prefix + '-' + this.options.type);
+					
 					this.loaded = true;
 					if (callback) callback.apply(this);
 					if (this.options.onLoad) this.options.onLoad.apply(this);
@@ -708,7 +736,7 @@
 						marginwidth: '0px',
 						scrolling: 'auto',
 						src: this.options.content
-					}).appendTo(that.$content).one('load', function() {
+					}).appendTo(that.$loaded).one('load', function() {
 						$loading.remove();
 						that.$iframe.show();
 						if (!that.options.title) {
@@ -1037,13 +1065,12 @@
 				};
 			}
 			
-			if (this.options.onOpen) this.options.onOpen.apply(this);
-			
 								
 			var that = this;
 			var rightAfterOpen = function () {
 				that.opened = true;
 				$.msgbox._focused = that;
+				if (that.options.onOpen) that.options.onOpen.apply(that);
 				if (callback) callback.apply(that);
 			};
 			var mayPlayAlbum = function () {
@@ -1244,20 +1271,9 @@
 		content: function (ctt) {
 			var that = this;
 			if (ctt === undefined) {
-				return this.$content.has(this.$loaded).length
-					? this.$loaded.html()
-					: this.$content.contents().filter(function(){
-						return !$(this).is(that.$resize);
-					}).html();
+				return this.$loaded.html();
 			} else {
-				if (this.$content.has(this.$loaded).length) {
-					this.$loaded.html(ctt);
-				} else {
-					this.$content.contents().filter(function(){
-						return !$(this).is(that.$resize) && !$(this).is(that.$img);
-					}).remove();
-					this.$content.prepend(ctt);
-				}
+				this.$loaded.html(ctt);
 			}
 			return true;
 		}

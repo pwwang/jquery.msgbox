@@ -290,7 +290,7 @@ $(".jmg-gallery-opener").click(function(){
 				<td class="type">string</td>
 				<td class="value">'html'</td>
 				<td>The type of msgbox</td>
-				<td>Supported types: <font>text, ajax, html, iframe, confirm, alert, prompt, warning, info=alert, error, success, photo, image=photo, album, gallery=album</font></td>
+				<td>Supported types: <font>text, ajax, html, iframe, confirm, alert, prompt, warning, info, error, success, photo, image=photo, album, gallery=album</font></td>
 			</tr>
 			<tr>
 				<td class="key">content</td>
@@ -461,6 +461,15 @@ $(".jmg-gallery-opener").click(function(){
 				<td>The minimal width of msgbox</td>
 				<td>1. the width of msgbox when minimized
 				2. the minimal width when resize msgbox</td>
+			</tr>
+			<tr>
+				<td class="key">padding</td>
+				<td class="type">number</td>
+				<td class="value">0</td>
+				<td>The padding of the content</td>
+				<td>Sometimes you need a padding of the content, e.g.: for text type or html type. However, you don't need them for photos in most cases.
+				CSS cannot differentiate the types, so you can define them here. Remember to use !important to override if you'd like to define it in CSS.
+				</td>
 			</tr>
 			<tr>
 				<td class="key">photoAuto</td>
