@@ -4,7 +4,6 @@
   "version": "8.0.0",
   "main": [
     "jquery.msgbox.min.js",
-    "style.css",
     "themes/metro/css/jquery.msgbox.css"
   ],
   "license": [
