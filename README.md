@@ -25,6 +25,12 @@ Most of the exising jquery popup plugins are lacking some of the features:
 * Key bindings support
 * Working as a photo slideshow
 
+Install
+-------
+```bash
+bower install pwwang/jquery.msgbox
+```
+
 Features
 -------------
 
