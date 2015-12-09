@@ -28,7 +28,7 @@ Most of the exising jquery popup plugins are lacking some of the features:
 Install
 -------
 ```bash
-bower install pwwang/jquery.msgbox
+bower install jquery.msgbox
 ```
 
 Features
