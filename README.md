@@ -3,7 +3,7 @@ jquery.msgbox
 
 A jquery popup/modal/dialog plugin. Version 8.0
 
-Documentation and examples: http://jmsgbox.com
+Documentation and examples: https://pwwang.github.io/jquery.msgbox
 
 Browser support: morden browsers, IE7+
 
