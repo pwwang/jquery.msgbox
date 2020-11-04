@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<title>jquery.msgbox issue#2 replication</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" id="theme" type="text/css" />
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+	<script type="text/javascript" src="../jquery.msgbox.js"></script>
+
+	<style type="text/css">
+	* {font-family: Arial; font-size: 12px;}
+	pre {
+		font-family: monospace, consolas;
+		font-size: 12px;
+		border: 1px solid #333;
+		width: 550px;
+		padding: 12px;
+		background-color: #ddd;
+	}
+	body {width: 688px;}
+	h1 {font-size: 24px;}
+	h2 {font-size: 20px;}
+	h3.title {font-size: 16px; margin: 0px;}
+	.wrap {background-color: #eee; padding: 8px ; margin-bottom: 10px;}
+	.msgbox {text-decoration: none; background-color:#f33; display: inline-block; margin-bottom: 6px; padding: 4px 6px; color:#fff;}
+	.comment {padding-top: 6px;}
+	</style>
+
+	<script type="text/javascript">
+	var theme = location.href.split(/\?/)[1];
+	theme = theme || 'metro';
+	$("#theme").attr('href', "../themes/"+ theme +"/css/jquery.msgbox.css");
+
+	$ (document) .ready(function(){
+		var produce = function () {
+			$("pre.code").each (function(){
+				eval ($(this).text());
+			});
+		}
+
+		$("#themeswitcher").val(theme);
+
+		produce();
+
+		$("#themeswitcher").change(function(){
+			location.href = location.href.split(/\?/)[0] + '?' + $(this).val();
+		});
+	});
+	</script>
+</head>
+<body>
+	<h1>jquery.msgbox issue#2 replication <a href="../index.html">Back to jquery.msgbox home</a></h1>
+	<div>Switch msgbox theme: <select id="themeswitcher">
+		<option value="bootstrap">bootstrap</option>
+		<option value="black">black</option>
+		<option value="mac">mac</option>
+		<option value="jqueryui">jqueryui</option>
+		<option value="metro">metro</option>
+		<option value="naked">naked</option>
+		<option value="facebook">facebook</option>
+
+	</select></div>
+
+	<div class="wrap">
+		<pre class="code">
+            $(".caption").msgbox(
+                {
+                    type: 'alert',
+                    content: "xxxxxxx",
+                    title: 'Alert',
+                    onClose: function(){
+
+                    }
+            });
+        </pre>
+		<div class="trigger">
+			<a href="javascript:;" class="caption msgbox">Open</a>
+		</div>
+	</div>
+</body>
+</html>

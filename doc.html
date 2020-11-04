@@ -5,23 +5,23 @@
 	<meta name="description" content="Popup a box in a website" />
 	<meta name="keywords" content="jquery plugin, popup, modal, colorbox, thickbox" />
 	<meta name="robots" content="index, follow" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 	<script type="text/javascript" src="jquery.msgbox.js"></script>
 	<link rel="stylesheet" href="themes/metro/css/jquery.msgbox.css" type="text/css" />
 	<link rel="stylesheet" href="style.css" type="text/css" />
-	
+
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".jmb-text").msgbox({
 			type: 'text',
 			content: 'Text content'
 		});
-		
+
 		$(".jmb-html").msgbox({
 			type: 'html',
 			content: '<p>HTML content</p><p style="color:#f33;">HTML content</p>'
 		});
-		
+
 		$(".jmb-ajax").msgbox({
 			type: 'ajax',
 			content: 'index.html'
@@ -31,7 +31,7 @@
 			type: 'iframe',
 			content: 'index.html'
 		});
-		
+
 		$(".jmb-confirm").msgbox({
 			type: 'confirm',
 			content: 'Are you sure',
@@ -39,12 +39,12 @@
 				alert(!!this.val());
 			}
 		});
-		
+
 		$(".jmb-alert").msgbox({
 			type: 'alert',
 			content: 'Message'
 		});
-		
+
 		$(".jmb-prompt").msgbox({
 			type: 'prompt',
 			content: 'Please input: ',
@@ -52,22 +52,22 @@
 				alert(this.val());
 			}
 		});
-		
+
 		$(".jmb-photo").msgbox({
 			type: 'photo'
 		});
-		
+
 		$(".jmb-photo-opener").click(function(){
 			$.msgbox({
 				type: 'photo',
 				content: '.jmb-photo'
 			});
 		});
-		
+
 		$(".jmb-gallery").msgbox({
 			type: 'gallery'
 		});
-		
+
 		$(".jmb-gallery-opener").click(function(){
 			$.msgbox({
 				type: 'gallery',
@@ -78,7 +78,7 @@
 	</script>
 </head>
 <body>
-	
+
 	<div id="header">
 		<div id="logo">
 			<a href="index.html">
@@ -108,7 +108,7 @@
 </pre>
 		<p>Different type of contents:</p>
 		<h3>text: <a href="javascript:;" class="jmb jmb-text">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-text").msgbox({
 	type: 'text',
@@ -116,7 +116,7 @@ $(".jmb-text").msgbox({
 });
 </pre>
 		<h3>html (default): <a href="javascript:;" class="jmb jmb-html">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-html").msgbox({
 	type: 'html',
@@ -124,25 +124,25 @@ $(".jmb-html").msgbox({
 });
 </pre>
 		<h3>ajax: <a href="javascript:;" class="jmb jmb-ajax">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-ajax").msgbox({
 	type: 'ajax',
 	content: 'index.html'
 });
 </pre>
-		
+
 		<h3>iframe: <a href="javascript:;" class="jmb jmb-iframe">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-iframe").msgbox({
 	type: 'iframe',
 	content: 'index.html'
 });
 </pre>
-		
+
 		<h3>confirm: <a href="javascript:;" class="jmb jmb-confirm">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-confirm").msgbox({
 	type: 'confirm',
@@ -153,7 +153,7 @@ $(".jmb-confirm").msgbox({
 });
 </pre>
 		<h3>alert: <a href="javascript:;" class="jmb jmb-alert">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-alert").msgbox({
 	type: 'alert',
@@ -161,9 +161,9 @@ $(".jmb-alert").msgbox({
 	title: 'Alert'
 });
 </pre>
-		
+
 		<h3>prompt: <a href="javascript:;" class="jmb jmb-prompt">Open msgbox</a></h3>
-		
+
 		<pre>
 $(".jmb-prompt").msgbox({
 	type: 'prompt',
@@ -173,11 +173,11 @@ $(".jmb-prompt").msgbox({
 	}
 });
 </pre>
-		
+
 		<h3>photo: <a href="https://www.google.com.hk/images/srpr/logo11w.png" title="Google Logo" class="jmb jmb-photo">Open msgbox</a>
 		<a href="javascript:;" class="jmb jmb-photo-opener">Open msgbox by $.msgbox</a>
 		</h3>
-		
+
 		<pre>
 //&lt;a href="https://www.google.com.hk/images/srpr/logo11w.png" title="Google Logo" class="jmb-photo"&gt;Open msgbox&lt;/a&gt;
 $(".jmb-photo").msgbox({
@@ -190,15 +190,15 @@ $(".jmg-photo-opener").click(function(){
 	});
 });
 </pre>
-		
-		
+
+
 		<h3>gallery:
 		<a href="https://www.google.com.hk/images/srpr/logo11w.png" title="Google Logo" class="jmb jmb-gallery">Open msgbox (1st photo)</a>
 		<a href="http://www.kalambakal.com/wp-content/uploads/2013/09/Bing_Logo.jpg" title="Bing Logo" class="jmb jmb-gallery">Open msgbox (2nd photo)</a>
 		<a href="https://www.nsslabs.com/sites/default/files/import/assets/images/blog/yahoo-logo.jpg" title="Yahoo Logo" class="jmb jmb-gallery">Open msgbox (3rd photo)</a>
 		<a href="javascript:;" class="jmb jmb-gallery-opener">Open msgbox by $.msgbox</a>
 		</h3>
-		
+
 		<pre>
 $(".jmb-gallery").msgbox({
 	type: 'gallery'
@@ -210,10 +210,10 @@ $(".jmg-gallery-opener").click(function(){
 	});
 });
 </pre>
-		
-		
-		
-		
+
+
+
+
 		<h2>Full settings</h2>
 		<p>jquery.msgbox could be either initialized by <font>$.msgbox(arguments)</font> or <font>$(SELECTOR).msgbox(arguments)</font></p>
 		<p>The arguments is an javascript object with key-value pairs (e.g. <font>{title: 'Hello', content: 'Hello world!'}</font>):</p>
@@ -338,7 +338,7 @@ $(".jmg-gallery-opener").click(function(){
 			<tr>
 				<td class="key">keyEvents</td>
 				<td class="type">object</td>
-				<td class="value">{		
+				<td class="value">{
 			Esc: 'close', <br />
 			Space: 'play',<br />
 			Left: 'prev',<br />
@@ -542,7 +542,7 @@ $(".jmg-gallery-opener").click(function(){
 				<td></td>
 			</tr>
 		</table>
-		
+
 		<h2>API</h2>
 		<p>As in Full Settings mentioned, we use <font>$.msgbox()</font> and <font>$(SELECTOR).msgbox()</font> to retrieve the msgbox.
 		We can also use <font>$.msgbox(id)</font> to retrieve a msgbox when deal with multiple instances. Once got the object, we can call
@@ -658,7 +658,7 @@ $(".jmg-gallery-opener").click(function(){
 				<td>To get the content(html) (if <font>c</font> is not specified), or to set the new content(html).</td>
 			</tr>
 		</table>
-		
+
 		<p>Static</p>
 		<table class="doctable" cellpadding="4" cellspacing="1" width="100%">
 			<tr>
@@ -687,7 +687,7 @@ $(".jmg-gallery-opener").click(function(){
 				<td>Minimize all the msgboxes generated by $.msgbox. Callback will be called after all msgboxes minimized.</td>
 			</tr>
 		</table>
-		
+
 		<h2>Internationalization</h2>
 		<p>Refer the file <font>jquery.msgbox.i18n.js</font> and specify a language <font>lang</font> to use i18n.</p>
 		<table class="doctable" cellpadding="4" cellspacing="1" width="100%">
